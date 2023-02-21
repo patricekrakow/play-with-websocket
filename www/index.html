@@ -47,7 +47,8 @@ const text = document.getElementById('text')
 
 const url = `ws://${location.hostname}:8080`
 info.innerHTML = url
-const socket = new WebSocket(`ws://${location.hostname}:8080`)
+
+const socket = new WebSocket(url)
 
 socket.onerror = function(event){
   text.innerHTML = "Refresh!"
