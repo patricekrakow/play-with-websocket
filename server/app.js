@@ -2,7 +2,9 @@
 const WebSocket = require('ws')
 const uuid = require('uuid')
 
-const wss = new WebSocket.Server({ port: 8080 })
+const port = 8090
+
+const wss = new WebSocket.Server({ port: port })
 
 setInterval(generateRandom, 2000)
 

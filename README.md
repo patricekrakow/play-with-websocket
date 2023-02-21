@@ -1,5 +1,7 @@
 # Let's Play with WebSocket (WS)
 
+> **_Note:_** This repository has an Server-Sent Events (SSE) companion, available at <https://github.com/patricekrakow/play-with-server-sent-events>, showing the exact same example implemented with SSE instead of WS :-)
+
 ## Abstract
 
 This repository contains the **simplest** running example illustrating how WebSocket (WS) works :-) If you have an idea for an even simpler example, please let me know!
@@ -24,13 +26,15 @@ function generateRandom() {
 }
 ```
 
-The server accepts WebSocket connection on port `8080` using
+The server accepts WebSocket connection on port `8090` using
 
 ```javascript
 const WebSocket = require('ws')
 const uuid = require('uuid')
 
-const wss = new WebSocket.Server({ port: 8080 })
+const port = 8090
+
+const wss = new WebSocket.Server({ port: port })
 
 wss.on('connection', function connection(ws) {
   ws.id = uuid.v4()
@@ -125,19 +129,20 @@ We will serve the `index.html` file with `http-server` that can be installed usi
 npm install -g http-server
 ```
 
-and we will use the port `8082`
+and we will use the port `8080`
 
 ```text
-http-server www --port 8082
+http-server www --port 8080
 ```
 
 The address of the WebSocket will constructed within the `index.html` using
 
 ```javascript
-const url = `ws://${location.hostname}:8080`
-````
+const wsPort = 8090
+const url = `ws://${location.hostname}:${wsPort}`
+```
 
-Then, the connection with the WebSocket server is established using
+Then, the connection with the WebSocket (WS) server is established using
 
 ```javascript
 const socket = new WebSocket(url)
@@ -147,7 +152,7 @@ When connected the `<td>` element with the `id="text"` is overwritten with
 
 ```javascript
 socket.onmessage = function(event) {
-  const value = JSON.parse(event.data).random;
+  const value = JSON.parse(event.data).random
   text.innerHTML = value
 }
 ```
@@ -171,7 +176,7 @@ socket.onerror = function(event){
 After having started the WebScoket server on port `8080` and the HTTP server on port `8082`, you can have a try with one or multiple browsers going to
 
 ```text
-http://<Your IP address>:8082
+http://<Your IP address>:8080
 ```
 
 ## Server Logs

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<!-- play-with-websocket/index.html -->
 <html>
   <head>
-    <title>Random</title>
+    <title>Random (via WS)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <style>
 html {
@@ -45,20 +46,21 @@ p {
     <script>
 const text = document.getElementById('text')
 
-const url = `ws://${location.hostname}:8080`
+const wsPort = 8090
+const url = `ws://${location.hostname}:${wsPort}`
 info.innerHTML = url
 
 const socket = new WebSocket(url)
 
+socket.onmessage = function(event) {
+  const value = JSON.parse(event.data).random
+  text.innerHTML = value
+  console.log(event.data)
+}
+
 socket.onerror = function(event){
   text.innerHTML = "Refresh!"
   console.log("Error!")
-}
-
-socket.onmessage = function(event) {
-  const value = JSON.parse(event.data).random;
-  text.innerHTML = value
-  console.log(event.data);
 }
     </script>
   </body>
